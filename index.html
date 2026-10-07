@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ayisha | Computer Science Engineering Student • Coder • AI Explorer • Builder • Curious Mind">
+    <meta name="keywords" content="Ayisha, CSE Portfolio, Software Engineer, IoT, ESP32, AI, Developer, Web Developer">
+    <meta name="author" content="Ayisha">
+    <title>AYISHA // Cyberpunk &amp; Pixel Portfolio</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a0a14'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='55' fill='%2300ffcc' font-family='monospace'>A_</text></svg>">
+    
+    <!-- Google Fonts: Space Grotesk, Press Start 2P, JetBrains Mono, Syne -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,800;1,400&family=Press+Start+2P&family=Space+Grotesk:wght@400;600;700;800&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="loading">
+
+    <!-- CRT Screen & Grain Overlay FX -->
+    <div class="crt-overlay" aria-hidden="true"></div>
+    <div class="grain-overlay" aria-hidden="true"></div>
+    <div class="scanline" aria-hidden="true"></div>
+
+    <!-- Custom Interactive Cyber Cursor -->
+    <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
+    <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
+    <div id="cursor-glitch-trail" class="cursor-glitch-trail" aria-hidden="true"></div>
+
+    <!-- Background Animated Canvas (Particle Starfield & Circuit Grid) -->
+    <canvas id="bg-canvas" class="bg-canvas" aria-hidden="true"></canvas>
+
+    <!-- Audio FX & Sound Controller HUD -->
+    <div class="cyber-sound-hud" id="sound-hud">
+        <button id="sound-toggle-btn" class="sound-toggle-btn" aria-label="Toggle Cyber Sound FX" title="Toggle 8-bit Audio Synthesizer">
+            <span class="sound-icon" id="sound-icon">🔈</span>
+            <span class="sound-label">AUDIO: <span id="sound-status">MUTED</span></span>
+        </button>
+    </div>
+
+    <!-- ==========================================================================
+       CINEMATIC PRELOADER / SYSTEM BOOT SEQUENCE
+       ========================================================================== -->
+    <div id="boot-screen" class="boot-screen" role="dialog" aria-modal="true" aria-label="System Initializer">
+        <div class="boot-box">
+            <div class="boot-header">
+                <span class="pixel-dot red"></span>
+                <span class="pixel-dot yellow"></span>
+                <span class="pixel-dot green"></span>
+                <span class="boot-title">CORE_SYS_V2.06 // BOOTING AYISHA.EXE</span>
+            </div>
+            <div class="boot-terminal" id="boot-terminal-logs">
+                <p class="boot-line">&gt; SYSTEM INITIALIZING...</p>
+                <p class="boot-line">&gt; LOADING NEURAL CORE &amp; PIXEL MATRIX... [OK]</p>
+                <p class="boot-line">&gt; CONNECTING IOT SENSORS &amp; TELEMETRY... [OK]</p>
+                <p class="boot-line">&gt; CALIBRATING QUANTUM ALGORITHMS... [OK]</p>
+                <p class="boot-line highlight">&gt; AYISHA: COMPUTER SCIENCE ENGINEERING STUDENT DETECTED.</p>
+            </div>
+            <div class="boot-progress-wrapper">
+                <div class="boot-progress-bar" id="boot-progress-bar"></div>
+            </div>
+            <button id="enter-world-btn" class="enter-world-btn cyber-glitch-btn" disabled>
+                <span class="btn-cut"></span>
+                <span class="btn-text">INITIALIZING...</span>
+                <span class="btn-glitch" aria-hidden="true">INITIALIZING...</span>
+            </button>
+            <p class="boot-hint">[ PRESS TO ENTER AYISHA'S DIGITAL REALM ]</p>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       ART-INTEGRATED CYBER NAVIGATION HUD & SCROLL TRACKER
+       ========================================================================== -->
+    <!-- Scroll Progress Indicator Line -->
+    <div class="scroll-progress-container" aria-hidden="true">
+        <div class="scroll-progress-line" id="scroll-progress-line"></div>
+        <span class="scroll-progress-val" id="scroll-progress-val">00%</span>
+    </div>
+
+    <!-- Floating Top Left Brand / System Node -->
+    <div class="hud-top-left" data-magnetic>
+        <a href="#hero" class="hud-brand-node" aria-label="Go to Home">
+            <span class="brand-pixel-icon">👾</span>
+            <div class="brand-info">
+                <span class="brand-title">AYISHA<span class="brand-cursor">_</span></span>
+                <span class="brand-sub">CSE // NODE.2026</span>
+            </div>
+        </a>
+    </div>
+
+    <!-- Right-Asymmetric Integrated Cyber Art Navigation Dock -->
+    <nav class="cyber-nav-hud" id="cyber-nav-hud" aria-label="Art-Integrated Section Navigation">
+        
+        <!-- Background Hologram & Scanline Frame -->
+        <div class="nav-hud-backdrop" aria-hidden="true">
+            <div class="nav-circuit-line"></div>
+            <div class="nav-scanlines"></div>
+        </div>
+
+        <div class="nav-hud-header">
+            <span class="hud-label-tiny">NAV_MATRIX // V2</span>
+            <span class="hud-signal-dot"></span>
+        </div>
+
+        <!-- Connecting Glowing Circuit SVG Line -->
+        <svg class="nav-circuit-svg" aria-hidden="true">
+            <path id="nav-circuit-path" d="M 12 10 L 12 280" stroke="rgba(0, 255, 204, 0.25)" stroke-width="1.5" stroke-dasharray="3 3" fill="none"/>
+            <circle id="nav-circuit-beacon" cx="12" cy="18" r="4" fill="#00ffcc" filter="drop-shadow(0 0 6px #00ffcc)"/>
+        </svg>
+
+        <!-- Navigation Links Matrix -->
+        <ul class="nav-art-menu" id="nav-art-menu">
+            
+            <!-- 01. HOME -->
+            <li class="nav-art-item active" data-section="hero">
+                <a href="#hero" class="nav-art-link" data-magnetic>
+                    <span class="nav-num">01</span>
+                    <span class="nav-glyph">▲</span>
+                    <span class="nav-label-text" data-text="HOME">HOME</span>
+                    <span class="nav-active-bracket" aria-hidden="true"></span>
+                </a>
+            </li>
+
+            <!-- 02. ABOUT -->
+            <li class="nav-art-item" data-section="about">
+                <a href="#about" class="nav-art-link" data-magnetic>
+                    <span class="nav-num">02</span>
+                    <span class="nav-glyph">✦</span>
+                    <span class="nav-label-text" data-text="ABOUT">ABOUT</span>
+                    <span class="nav-active-bracket" aria-hidden="true"></span>
+                </a>
+            </li>
+
+            <!-- 03. SKILLS -->
+            <li class="nav-art-item" data-section="skills">
+                <a href="#skills" class="nav-art-link" data-magnetic>
+                    <span class="nav-num">03</span>
+                    <span class="nav-glyph">⚡</span>
+                    <span class="nav-label-text" data-text="SKILLS">SKILLS</span>
+                    <span class="nav-active-bracket" aria-hidden="true"></span>
+                </a>
+            </li>
+
+            <!-- 04. TIMELINE -->
+            <li class="nav-art-item" data-section="timeline">
+                <a href="#timeline" class="nav-art-link" data-magnetic>
+                    <span class="nav-num">04</span>
+                    <span class="nav-glyph">◈</span>
+                    <span class="nav-label-text" data-text="TIMELINE">TIMELINE</span>
+                    <span class="nav-active-bracket" aria-hidden="true"></span>
+                </a>
+            </li>
+
+            <!-- 05. PROJECTS -->
+            <li class="nav-art-item" data-section="projects">
+                <a href="#projects" class="nav-art-link" data-magnetic>
+                    <span class="nav-num">05</span>
+                    <span class="nav-glyph">⬡</span>
+                    <span class="nav-label-text" data-text="PROJECTS">PROJECTS</span>
+                    <span class="nav-active-bracket" aria-hidden="true"></span>
+                </a>
+            </li>
+
+            <!-- 06. CONTACT -->
+            <li class="nav-art-item" data-section="contact">
+                <a href="#contact" class="nav-art-link" data-magnetic>
+                    <span class="nav-num">06</span>
+                    <span class="nav-glyph">✉</span>
+                    <span class="nav-label-text" data-text="CONTACT">CONTACT</span>
+                    <span class="nav-active-bracket" aria-hidden="true"></span>
+                </a>
+            </li>
+
+        </ul>
+
+        <!-- HUD Footer Status Telemetry -->
+        <div class="nav-hud-footer">
+            <div class="telemetry-chip">
+                <span class="chip-dot"></span>
+                <span class="chip-text" id="nav-active-section-name">LOC: [HOME]</span>
+            </div>
+            <!-- Night Mode / Matrix Glow Toggle -->
+            <button type="button" id="theme-toggle" class="nav-theme-btn" aria-label="Toggle Glow Mode" title="Toggle Theme" data-magnetic>
+                <span id="theme-icon">⚡</span>
+            </button>
+        </div>
+
+    </nav>
+
+    <!-- Mobile Floating Toggle Button -->
+    <button type="button" class="mobile-hud-toggle" id="mobile-hud-toggle" aria-label="Toggle Navigation HUD" aria-expanded="false">
+        <span class="mobile-toggle-icon">◈</span>
+        <span class="mobile-toggle-label">NAV</span>
+    </button>
+
+    <!-- ==========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================== -->
+    <main id="main-content">
+
+        <!-- ----------------------------------------------------------------------
+           1. HERO SECTION (DRAMATIC HEROINE ENTRY)
+           ---------------------------------------------------------------------- -->
+        <section id="hero" class="hero-section" aria-labelledby="hero-title">
+            <div class="hero-backdrop-glow"></div>
+            
+            <div class="container hero-container">
+                <!-- Left: Giant Typography & Punchy Badges -->
+                <div class="hero-content" id="hero-content">
+                    
+                    <div class="hero-badge-strip">
+                        <span class="cyber-badge pulse">
+                            <span class="badge-icon">👾</span> LEVEL 2026 // CSE UNDERGRAD
+                        </span>
+                        <span class="cyber-badge-sub">CODER • AI EXPLORER • BUILDER • CURIOUS MIND</span>
+                    </div>
+
+                    <!-- Giant Animated Name -->
+                    <div class="hero-title-wrap">
+                        <h1 id="hero-title" class="hero-name glitch-title" data-text="AYISHA">
+                            AYISHA
+                        </h1>
+                        <div class="title-sub-bar">
+                            <span class="code-tag">&lt;identity&gt;</span>
+                            <span class="hero-role-typing" id="hero-role-typing">COMPUTER SCIENCE ENGINEERING STUDENT</span>
+                            <span class="typing-cursor">_</span>
+                            <span class="code-tag">&lt;/identity&gt;</span>
+                        </div>
+                    </div>
+
+                    <p class="hero-tagline">
+                        “I don’t just learn how technology works. I like discovering what I can build with it.”
+                    </p>
+
+                    <!-- Hero Call to Action Buttons -->
+                    <div class="hero-actions">
+                        <a href="#projects" class="btn btn-cyber-primary" data-magnetic id="hero-cta-projects">
+                            <span class="btn-glitch-overlay"></span>
+                            <span class="btn-icon">⚡</span>
+                            <span class="btn-text">INSPECT PROJECTS</span>
+                            <span class="btn-corner-br"></span>
+                        </a>
+                        <a href="#contact" class="btn btn-cyber-outline" data-magnetic id="hero-cta-contact">
+                            <span class="btn-icon">💬</span>
+                            <span class="btn-text">LET’S BUILD</span>
+                        </a>
+                        <a href="#about" class="btn btn-cyber-ghost" data-magnetic id="hero-cta-world">
+                            <span class="btn-icon">🌐</span>
+                            <span class="btn-text">EXPLORE WORLD</span>
+                        </a>
+                    </div>
+
+                    <!-- Mini Live Metrics Bar -->
+                    <div class="hero-live-telemetry">
+                        <div class="telem-item">
+                            <span class="telem-label">CODE FOCUS</span>
+                            <span class="telem-val">DSA + IOT + AI</span>
+                        </div>
+                        <div class="telem-item">
+                            <span class="telem-label">PASSION</span>
+                            <span class="telem-val">CREATIVE TECH</span>
+                        </div>
+                        <div class="telem-item">
+                            <span class="telem-label">SYSTEM VIBE</span>
+                            <span class="telem-val neon-green">100% OVERCLOCKED</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Pixel-Art Digital Female Engineering Student Heroine Avatar -->
+                <div class="hero-visual-wrapper" id="hero-visual-wrapper">
+                    
+                    <!-- 3D Parallax Avatar Stage -->
+                    <div class="heroine-stage" id="heroine-stage">
+                        
+                        <!-- Glowing Orbit Rings -->
+                        <div class="orbit-ring ring-outer" id="orbit-ring-1"></div>
+                        <div class="orbit-ring ring-middle" id="orbit-ring-2"></div>
+                        <div class="orbit-ring ring-inner" id="orbit-ring-3"></div>
+
+                        <!-- Orbiting AI & Code Symbols -->
+                        <div class="orbit-item item-code" style="--angle: 0deg;" title="Code Symbol">&lt;/&gt;</div>
+                        <div class="orbit-item item-ai" style="--angle: 72deg;" title="Artificial Intelligence">AI 🧠</div>
+                        <div class="orbit-item item-iot" style="--angle: 144deg;" title="IoT Hardware">ESP32 📡</div>
+                        <div class="orbit-item item-dsa" style="--angle: 216deg;" title="Algorithms">DSA ⚡</div>
+                        <div class="orbit-item item-python" style="--angle: 288deg;" title="Python Core">0101 🐍</div>
+
+                        <!-- Real Photo of Ayisha (Preserving real identity with subtle cyber glow frame) -->
+                        <div class="heroine-photo-container" id="heroine-char">
+                            <div class="photo-cyber-frame">
+                                <div class="photo-corner-tl" aria-hidden="true"></div>
+                                <div class="photo-corner-tr" aria-hidden="true"></div>
+                                <div class="photo-corner-bl" aria-hidden="true"></div>
+                                <div class="photo-corner-br" aria-hidden="true"></div>
+                                <div class="photo-scanline-fx" aria-hidden="true"></div>
+                                <div class="photo-hologram-glow" aria-hidden="true"></div>
+                                
+                                <img src="hacker-girl.jpg" alt="Ayisha - Cyberpunk Hacker Girl Coder & Engineer" class="heroine-real-photo" id="heroine-real-photo" onerror="if(this.src.indexOf('ayisha.jpg')===-1){this.src='ayisha.jpg';}">
+                            </div>
+
+                            <!-- Floating Cyber Badges Around Photo -->
+                            <div class="floating-badge badge-top-right">
+                                <span class="badge-dot"></span>
+                                <span class="badge-text">STATUS: CODING &amp; SOLVING</span>
+                            </div>
+                            <div class="floating-badge badge-bottom-left">
+                                <span class="badge-icon">⚡</span>
+                                <span class="badge-text">BUILDING IOT + AI</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Parallax Prompt Note -->
+                    <div class="avatar-interactive-tip">
+                        <span class="tip-icon">🖱️</span> MOVE CURSOR FOR 3D PARALLAX
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <a href="#about" class="scroll-down-indicator" aria-label="Scroll to About Section">
+                <span class="scroll-label">DISCOVER WORLD</span>
+                <div class="scroll-mouse">
+                    <div class="scroll-wheel"></div>
+                </div>
+                <span class="scroll-arrows">▼</span>
+            </a>
+        </section>
+
+
+        <!-- ----------------------------------------------------------------------
+           2. ABOUT SECTION (HOLOGRAPHIC PHILOSOPHY & TERMINAL)
+           ---------------------------------------------------------------------- -->
+        <section id="about" class="about-section cyber-section" aria-labelledby="about-title">
+            <div class="section-glitch-bar"></div>
+            
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-counter">01 // IDENTITY</span>
+                    <h2 id="about-title" class="section-title">ABOUT ME</h2>
+                    <div class="section-line"></div>
+                </div>
+
+                <!-- Big Statement Block -->
+                <div class="about-quote-box" data-reveal>
+                    <div class="quote-decor-left">“</div>
+                    <blockquote class="about-quote-text">
+                        I don’t just learn how technology works.<br>
+                        <span class="quote-highlight">I like discovering what I can build with it.</span>
+                    </blockquote>
+                    <div class="quote-decor-right">”</div>
+                </div>
+
+                <div class="about-grid">
+                    <!-- Left: Interactive Bio Terminal -->
+                    <div class="about-terminal-card" data-reveal>
+                        <div class="terminal-top">
+                            <div class="terminal-dots">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <span class="terminal-title">ayisha@cse-terminal: ~/profile</span>
+                            <span class="terminal-badge">BASH 5.2</span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="term-row">
+                                <span class="prompt">ayisha@dev:~$</span>
+                                <span class="command">cat summary.txt</span>
+                            </div>
+                            <div class="term-output">
+                                <p>Hey there! I'm <strong class="neon-cyan">Ayisha</strong>, a driven Computer Science Engineering student passionate about crafting real-world solutions that bridge theoretical computation with tangible hardware and intelligent algorithms.</p>
+                                <p>Whether it's wiring sensors on an <strong>ESP32 microcontroller</strong>, crafting algorithms with <strong>Data Structures</strong>, or building intuitive full-stack web interfaces, I enjoy taking an idea from a blank file to a living system.</p>
+                            </div>
+
+                            <div class="term-row">
+                                <span class="prompt">ayisha@dev:~$</span>
+                                <span class="command">whoami --interests</span>
+                            </div>
+                            <div class="term-output">
+                                <ul class="term-list">
+                                    <li><span class="list-bullet">✦</span> <strong>Embedded IoT:</strong> Microcontrollers, real-time alerts, telemetric sensor feeds.</li>
+                                    <li><span class="list-bullet">✦</span> <strong>Problem Solving:</strong> Data structures &amp; algorithmic thinking.</li>
+                                    <li><span class="list-bullet">✦</span> <strong>AI &amp; Smart Systems:</strong> Exploring machine learning &amp; intelligent automation.</li>
+                                </ul>
+                            </div>
+
+                            <div class="term-row">
+                                <span class="prompt">ayisha@dev:~$</span>
+                                <span class="command typing-active">echo "Always building, always curious."</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Pixel Attribute Stats & Radar -->
+                    <div class="about-stats-container" data-reveal>
+                        <h3 class="cyber-subtitle">// CORE ATTRIBUTES</h3>
+
+                        <div class="stat-attribute-grid">
+                            <div class="stat-card" data-tilt>
+                                <div class="stat-icon">💡</div>
+                                <div class="stat-info">
+                                    <span class="stat-number">100%</span>
+                                    <span class="stat-name">Curiosity Factor</span>
+                                    <div class="stat-bar-track"><div class="stat-bar-fill" style="--val: 100%;"></div></div>
+                                </div>
+                            </div>
+
+                            <div class="stat-card" data-tilt>
+                                <div class="stat-icon">⚙️</div>
+                                <div class="stat-info">
+                                    <span class="stat-number">CSE</span>
+                                    <span class="stat-name">Engineering Mindset</span>
+                                    <div class="stat-bar-track"><div class="stat-bar-fill" style="--val: 95%;"></div></div>
+                                </div>
+                            </div>
+
+                            <div class="stat-card" data-tilt>
+                                <div class="stat-icon">📡</div>
+                                <div class="stat-info">
+                                    <span class="stat-number">IoT + AI</span>
+                                    <span class="stat-name">Hardware &amp; Neural Focus</span>
+                                    <div class="stat-bar-track"><div class="stat-bar-fill" style="--val: 90%;"></div></div>
+                                </div>
+                            </div>
+
+                            <div class="stat-card" data-tilt>
+                                <div class="stat-icon">🔥</div>
+                                <div class="stat-info">
+                                    <span class="stat-number">&infin;</span>
+                                    <span class="stat-name">Drive to Innovate</span>
+                                    <div class="stat-bar-track"><div class="stat-bar-fill" style="--val: 100%;"></div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mini Interactive Code Sandbox Snippet -->
+                        <div class="code-pill-box">
+                            <div class="code-pill-header">
+                                <span>AYISHA_PHILOSOPHY.c</span>
+                                <span class="badge-run">COMPILED</span>
+                            </div>
+                            <pre class="code-pill-body"><code><span class="c-kw">void</span> <span class="c-fn">buildFuture</span>() {
+    <span class="c-kw">while</span> (<span class="c-num">curiosity</span> &gt; <span class="c-num">0</span>) {
+        <span class="c-fn">learn</span>();
+        <span class="c-fn">prototype</span>();
+        <span class="c-fn">deployRealImpact</span>();
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ----------------------------------------------------------------------
+           3. SKILLS SECTION (FLOATING INTERACTIVE NODES & RADAR)
+           ---------------------------------------------------------------------- -->
+        <section id="skills" class="skills-section cyber-section" aria-labelledby="skills-title">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-counter">02 // ARSENAL</span>
+                    <h2 id="skills-title" class="section-title">SKILLS &amp; TECHNOLOGIES</h2>
+                    <div class="section-line"></div>
+                </div>
+
+                <p class="section-desc">
+                    Interactive tech nexus. Hover or click on any floating skill node to inspect its execution profile.
+                </p>
+
+                <!-- Floating Interactive Tech Orbit / Physics Field -->
+                <div class="skills-canvas-wrapper" id="skills-interactive-area" data-reveal>
+                    <div class="skills-grid-interactive">
+
+                        <!-- Skill 1: C -->
+                        <div class="floating-skill-node" data-skill="C" data-cat="System" data-desc="Low-level programming, memory management, pointer arithmetic, performance-critical computation." data-mastery="Core Logic">
+                            <div class="node-inner">
+                                <span class="node-icon">⚙️</span>
+                                <span class="node-title">C</span>
+                                <span class="node-badge">Systems</span>
+                            </div>
+                        </div>
+
+                        <!-- Skill 2: Java -->
+                        <div class="floating-skill-node" data-skill="Java" data-cat="OOP" data-desc="Object-Oriented Programming, strong typing, JVM fundamentals, enterprise architectures." data-mastery="OOP Mastery">
+                            <div class="node-inner">
+                                <span class="node-icon">☕</span>
+                                <span class="node-title">Java</span>
+                                <span class="node-badge">Robust OOP</span>
+                            </div>
+                        </div>
+
+                        <!-- Skill 3: Python -->
+                        <div class="floating-skill-node active-highlight" data-skill="Python" data-cat="AI / Scripting" data-desc="Data processing, AI prototyping, rapid scripting, machine learning libraries & automation." data-mastery="AI &amp; Scripting">
+                            <div class="node-inner">
+                                <span class="node-icon">🐍</span>
+                                <span class="node-title">Python</span>
+                                <span class="node-badge">AI &amp; Data</span>
+                            </div>
+                        </div>
+
+                        <!-- Skill 4: DSA -->
+                        <div class="floating-skill-node" data-skill="DSA" data-cat="Algorithmic" data-desc="Data Structures & Algorithms: Trees, Graphs, Dynamic Programming, Complexity Optimization." data-mastery="Problem Solving">
+                            <div class="node-inner">
+                                <span class="node-icon">⚡</span>
+                                <span class="node-title">DSA</span>
+                                <span class="node-badge">Algorithms</span>
+                            </div>
+                        </div>
+
+                        <!-- Skill 5: AI -->
+                        <div class="floating-skill-node glow-magenta" data-skill="AI" data-cat="Intelligence" data-desc="Machine learning intuition, neural network models, intelligent automation and predictive analysis." data-mastery="Next-Gen AI">
+                            <div class="node-inner">
+                                <span class="node-icon">🧠</span>
+                                <span class="node-title">AI</span>
+                                <span class="node-badge">Neural Systems</span>
+                            </div>
+                        </div>
+
+                        <!-- Skill 6: IoT -->
+                        <div class="floating-skill-node glow-cyan" data-skill="IoT" data-cat="Hardware" data-desc="ESP32, Arduino microcontrollers, hardware sensors, wireless IoT protocols, Blynk & Cloud integration." data-mastery="Embedded Tech">
+                            <div class="node-inner">
+                                <span class="node-icon">📡</span>
+                                <span class="node-title">IoT</span>
+                                <span class="node-badge">Smart Hardware</span>
+                            </div>
+                        </div>
+
+                        <!-- Skill 7: HTML -->
+                        <div class="floating-skill-node" data-skill="HTML" data-cat="Web" data-desc="Semantic structure, accessibility (a11y), modern HTML5 standards, SEO architectures." data-mastery="Semantic Web">
+                            <div class="node-inner">
+                                <span class="node-icon">🌐</span>
+                                <span class="node-title">HTML5</span>
+                                <span class="node-badge">Structure</span>
+                            </div>
+                        </div>
+
+                        <!-- Skill 8: CSS -->
+                        <div class="floating-skill-node" data-skill="CSS" data-cat="Design" data-desc="Modern CSS3, responsive layouts, keyframe animations, glassmorphism, flexbox, CSS Grid." data-mastery="Styling &amp; FX">
+                            <div class="node-inner">
+                                <span class="node-icon">🎨</span>
+                                <span class="node-title">CSS3</span>
+                                <span class="node-badge">Aesthetics</span>
+                            </div>
+                        </div>
+
+                        <!-- Skill 9: JavaScript -->
+                        <div class="floating-skill-node glow-amber" data-skill="JavaScript" data-cat="Web Logic" data-desc="ES6+, DOM manipulation, asynchronous programming, Web Audio API, Canvas 2D animations." data-mastery="Dynamic UX">
+                            <div class="node-inner">
+                                <span class="node-icon">⚡</span>
+                                <span class="node-title">JavaScript</span>
+                                <span class="node-badge">Interactivity</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Live Inspector HUD Bar for Skills -->
+                    <div class="skill-inspector-panel" id="skill-inspector">
+                        <div class="inspector-header">
+                            <span class="inspector-pulse"></span>
+                            <span class="inspector-label">INSPECTOR HUD:</span>
+                            <span class="inspector-name" id="inspect-skill-name">Hover over any skill node</span>
+                        </div>
+                        <div class="inspector-body">
+                            <p id="inspect-skill-desc">Select any node above to reveal engineering application, core concepts, and ecosystem synergies.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ----------------------------------------------------------------------
+           4. PROJECTS SECTION (FUTURISTIC IOT & HARDWARE SHOWCASE)
+           ---------------------------------------------------------------------- -->
+        <section id="projects" class="projects-section cyber-section" aria-labelledby="projects-title">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-counter">03 // INNOVATIONS</span>
+                    <h2 id="projects-title" class="section-title">FEATURED PROJECT SHOWCASE</h2>
+                    <div class="section-line"></div>
+                </div>
+
+                <!-- Flagship Project: IoT Smart Fire Alarm System -->
+                <article class="featured-project-container" data-reveal>
+                    <div class="featured-project-header">
+                        <div class="project-tag-banner">
+                            <span class="badge-flagship">★ FLAGSHIP HARDWARE &amp; IOT PROJECT</span>
+                            <span class="badge-status-live">SYSTEM: ACTIVE SIMULATOR READY</span>
+                        </div>
+                        <h3 class="flagship-title">IoT-Based Smart Fire Alarm System</h3>
+                        <p class="flagship-subtitle">
+                            An intelligent hazard mitigation system providing real-time optical flame telemetry, auditory alarm broadcasting, and instantaneous cloud notifications to prevent disaster.
+                        </p>
+                    </div>
+
+                    <div class="project-showcase-grid">
+                        <!-- Left: Interactive Visual Blueprint & Live Simulator -->
+                        <div class="project-simulator-card">
+                            <div class="sim-screen-header">
+                                <div class="sim-status">
+                                    <span class="sim-ping" id="sim-status-ping"></span>
+                                    <span class="sim-status-txt" id="sim-status-txt">ESP32 TELEMETRY: NORMAL</span>
+                                </div>
+                                <div class="sim-chips">
+                                    <span class="chip">ESP32-WROOM</span>
+                                    <span class="chip">2.4GHz Wi-Fi</span>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Simulator Visual Area -->
+                            <div class="sim-visual-stage" id="fire-alarm-stage">
+                                <div class="sensor-rig">
+                                    <div class="sensor-flame-detector" id="flame-sensor-unit">
+                                        <div class="sensor-led" id="sensor-flame-led"></div>
+                                        <span class="sensor-text">FLAME SENSOR</span>
+                                    </div>
+                                    <div class="mcu-unit">
+                                        <span class="mcu-label">ESP32 MCU</span>
+                                        <div class="mcu-pins">
+                                            <span>D4</span><span>D2</span><span>GND</span><span>3V3</span>
+                                        </div>
+                                    </div>
+                                    <div class="alarm-buzzer" id="alarm-buzzer-unit">
+                                        <span class="buzzer-icon">🚨</span>
+                                        <span class="buzzer-state" id="buzzer-state-text">STANDBY</span>
+                                    </div>
+                                </div>
+
+                                <!-- Dynamic Flame Simulation Animation -->
+                                <div class="flame-particle-container" id="flame-particles" aria-hidden="true">
+                                    <div class="pixel-flame" id="pixel-flame">🔥</div>
+                                </div>
+
+                                <!-- Real-time Telemetry Readout -->
+                                <div class="sim-telemetry-readout">
+                                    <div class="readout-box">
+                                        <span class="r-label">OPTICAL FLAME VAL:</span>
+                                        <span class="r-val" id="telemetry-flame-val">4095 (NO FLAME)</span>
+                                    </div>
+                                    <div class="readout-box">
+                                        <span class="r-label">BLYNK CLOUD:</span>
+                                        <span class="r-val neon-green" id="telemetry-cloud-val">ONLINE</span>
+                                    </div>
+                                    <div class="readout-box">
+                                        <span class="r-label">ALARM STATUS:</span>
+                                        <span class="r-val" id="telemetry-alarm-val">ALL CLEAR</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Simulator Controls -->
+                            <div class="sim-controls-footer">
+                                <button type="button" id="trigger-flame-sim-btn" class="btn btn-cyber-danger" data-magnetic>
+                                    <span class="btn-icon">🔥</span>
+                                    <span id="flame-btn-text">SIMULATE FLAME EVENT</span>
+                                </button>
+                                <button type="button" id="reset-flame-sim-btn" class="btn btn-cyber-outline" data-magnetic>
+                                    <span class="btn-icon">🔄</span>
+                                    <span>RESET TELEMETRY</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Right: Project Specifications & Tech Blueprint -->
+                        <div class="project-specs-card">
+                            <h4 class="specs-title">// SYSTEM ARCHITECTURE</h4>
+                            
+                            <!-- Tech Stack Pills -->
+                            <div class="tech-pill-row">
+                                <span class="tech-pill"><i class="pill-dot"></i> ESP32</span>
+                                <span class="tech-pill"><i class="pill-dot"></i> Flame Sensor</span>
+                                <span class="tech-pill"><i class="pill-dot"></i> Blynk Cloud</span>
+                                <span class="tech-pill"><i class="pill-dot"></i> Wi-Fi Telemetry</span>
+                                <span class="tech-pill"><i class="pill-dot"></i> Arduino IDE</span>
+                                <span class="tech-pill"><i class="pill-dot"></i> Embedded C++</span>
+                            </div>
+
+                            <!-- Feature Breakdown List -->
+                            <div class="specs-feature-list">
+                                <div class="spec-feature-item">
+                                    <div class="spec-num">01</div>
+                                    <div class="spec-details">
+                                        <strong>Instant Optical Wavelength Detection</strong>
+                                        <p>Utilizes IR-sensitive photodiode sensors to catch rapid flame wavelengths within milliseconds.</p>
+                                    </div>
+                                </div>
+
+                                <div class="spec-feature-item">
+                                    <div class="spec-num">02</div>
+                                    <div class="spec-details">
+                                        <strong>ESP32 Cloud IoT Gateway</strong>
+                                        <p>Processes analog/digital threshold inputs and dispatches push alerts over Wi-Fi via Blynk IoT protocol.</p>
+                                    </div>
+                                </div>
+
+                                <div class="spec-feature-item">
+                                    <div class="spec-num">03</div>
+                                    <div class="spec-details">
+                                        <strong>Auditory &amp; Cloud Redundancy</strong>
+                                        <p>Simultaneously engages physical buzzer alarms while pinging mobile devices for remote safety supervision.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Embedded Code Preview Tab -->
+                            <div class="blueprint-code-preview">
+                                <div class="code-preview-bar">
+                                    <span>smart_fire_alarm.ino</span>
+                                    <span class="c-lang">C++ / Arduino</span>
+                                </div>
+                                <pre class="blueprint-code"><code><span class="c-kw">#define</span> FLAME_PIN <span class="c-num">34</span>
+<span class="c-kw">#define</span> BUZZER_PIN <span class="c-num">25</span>
+
+<span class="c-kw">void</span> <span class="c-fn">checkSafetySensor</span>() {
+  <span class="c-kw">int</span> flameVal = <span class="c-fn">analogRead</span>(FLAME_PIN);
+  <span class="c-kw">if</span> (flameVal &lt; THRESHOLD) {
+    <span class="c-fn">digitalWrite</span>(BUZZER_PIN, HIGH);
+    Blynk.<span class="c-fn">logEvent</span>(<span class="c-str">"fire_alert"</span>, <span class="c-str">"WARNING: Flame detected!"</span>);
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Secondary Projects Grid -->
+                <div class="secondary-projects-grid" data-reveal>
+                    
+                    <!-- Secondary Project 1 -->
+                    <div class="project-mini-card" data-tilt>
+                        <div class="mini-card-head">
+                            <span class="mini-tag">AI &amp; ALGORITHMS</span>
+                            <span class="mini-icon">🧠</span>
+                        </div>
+                        <h4 class="mini-card-title">Intelligent Pathfinding &amp; Maze Visualizer</h4>
+                        <p class="mini-card-desc">
+                            Interactive visualizer demonstrating A* and Dijkstra graph traversal algorithms for optimal shortest-path navigation in grid environments.
+                        </p>
+                        <div class="mini-card-tech">
+                            <span>JavaScript</span> • <span>DSA</span> • <span>Canvas API</span>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Project 2 -->
+                    <div class="project-mini-card" data-tilt>
+                        <div class="mini-card-head">
+                            <span class="mini-tag">SYSTEMS &amp; TOOLS</span>
+                            <span class="mini-icon">💾</span>
+                        </div>
+                        <h4 class="mini-card-title">Custom Data Structure Engine in C</h4>
+                        <p class="mini-card-desc">
+                            Low-level implementation of self-balancing AVL Trees and Hash Tables with custom memory tracking and latency benchmarks.
+                        </p>
+                        <div class="mini-card-tech">
+                            <span>C</span> • <span>Valgrind</span> • <span>Algorithms</span>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Project 3 -->
+                    <div class="project-mini-card" data-tilt>
+                        <div class="mini-card-head">
+                            <span class="mini-tag">FULL-STACK &amp; UI</span>
+                            <span class="mini-icon">⚡</span>
+                        </div>
+                        <h4 class="mini-card-title">Cyberpunk Terminal Portfolio OS</h4>
+                        <p class="mini-card-desc">
+                            A high-octane portfolio environment with customized Web Audio synthesis, particle kinematics, and CRT shader emulation.
+                        </p>
+                        <div class="mini-card-tech">
+                            <span>HTML5</span> • <span>CSS3</span> • <span>Vanilla JS</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ----------------------------------------------------------------------
+           5. JOURNEY / TIMELINE SECTION (ANIMATED CSE GROWTH EXPEDITION)
+           ---------------------------------------------------------------------- -->
+        <section id="timeline" class="journey-section cyber-section" aria-labelledby="journey-title">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-counter">04 // EVOLUTION</span>
+                    <h2 id="journey-title" class="section-title">ENGINEERING JOURNEY &amp; MILESTONES</h2>
+                    <div class="section-line"></div>
+                </div>
+
+                <p class="section-desc">
+                    The progression roadmap of a Computer Science Engineering student: leveling up from logic foundations to intelligent systems.
+                </p>
+
+                <!-- Gamified Cyber Timeline Track -->
+                <div class="timeline-cyber-track" id="timeline-track">
+                    
+                    <!-- Level 01 -->
+                    <div class="timeline-step" data-reveal>
+                        <div class="step-badge">
+                            <span class="lvl-tag">LEVEL 01</span>
+                            <span class="lvl-icon">🌱</span>
+                        </div>
+                        <div class="step-card" data-tilt>
+                            <div class="step-date">THE GENESIS</div>
+                            <h3 class="step-role">Foundations &amp; Hello World</h3>
+                            <h4 class="step-institution">Computer Science Engineering // Year 1</h4>
+                            <p class="step-desc">
+                                Stepped into computer science; wrote my first lines of code in C. Mastered pointers, conditional logic, loops, and fell in love with turning mental logic into operational machine executions.
+                            </p>
+                            <div class="step-badges-row">
+                                <span class="badge-item">C Language</span>
+                                <span class="badge-item">Basic Logic</span>
+                                <span class="badge-item">Problem Solving</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Level 02 -->
+                    <div class="timeline-step" data-reveal>
+                        <div class="step-badge">
+                            <span class="lvl-tag">LEVEL 02</span>
+                            <span class="lvl-icon">⚡</span>
+                        </div>
+                        <div class="step-card" data-tilt>
+                            <div class="step-date">EXPANDING ARCHITECTURE</div>
+                            <h3 class="step-role">OOP, Data Structures &amp; Web Mechanics</h3>
+                            <h4 class="step-institution">Deep Dive // Year 2</h4>
+                            <p class="step-desc">
+                                Expanded into Object-Oriented paradigms with Java and Python. Studied linked lists, stacks, queues, trees, and graphs. Started crafting dynamic web interfaces with HTML, CSS, and modern JavaScript.
+                            </p>
+                            <div class="step-badges-row">
+                                <span class="badge-item">Java OOP</span>
+                                <span class="badge-item">Python</span>
+                                <span class="badge-item">DSA</span>
+                                <span class="badge-item">Frontend Core</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Level 03 -->
+                    <div class="timeline-step active-level" data-reveal>
+                        <div class="step-badge">
+                            <span class="lvl-tag">LEVEL 03</span>
+                            <span class="lvl-icon">📡</span>
+                        </div>
+                        <div class="step-card" data-tilt>
+                            <div class="step-date">HARDWARE &amp; SMART SYSTEMS</div>
+                            <h3 class="step-role">IoT Innovations &amp; Microcontrollers</h3>
+                            <h4 class="step-institution">Hardware Prototyping // Year 3</h4>
+                            <p class="step-desc">
+                                Bridged software and electronics. Built the IoT-Based Smart Fire Alarm System using ESP32, flame sensors, and Blynk Wi-Fi telemetry. Spearheaded embedded solutions and sensor data integration.
+                            </p>
+                            <div class="step-badges-row">
+                                <span class="badge-item">ESP32 Hardware</span>
+                                <span class="badge-item">IoT Protocols</span>
+                                <span class="badge-item">Sensor Telemetry</span>
+                                <span class="badge-item">Blynk Cloud</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Level 04 -->
+                    <div class="timeline-step" data-reveal>
+                        <div class="step-badge">
+                            <span class="lvl-tag">LEVEL 04</span>
+                            <span class="lvl-icon">🚀</span>
+                        </div>
+                        <div class="step-card future-card" data-tilt>
+                            <div class="step-date">THE HORIZON</div>
+                            <h3 class="step-role">AI Explorations &amp; Scalable Engineering</h3>
+                            <h4 class="step-institution">Future Frontiers // Present &amp; Beyond</h4>
+                            <p class="step-desc">
+                                Actively investigating machine learning algorithms, intelligent autonomous systems, and scalable full-stack applications. Continuously curious, continuously prototyping.
+                            </p>
+                            <div class="step-badges-row">
+                                <span class="badge-item">Artificial Intelligence</span>
+                                <span class="badge-item">Distributed Systems</span>
+                                <span class="badge-item">Real-World Impact</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ----------------------------------------------------------------------
+           6. CONTACT SECTION (CINEMATIC CALL TO ACTION & TRANSMITTER)
+           ---------------------------------------------------------------------- -->
+        <section id="contact" class="contact-section cyber-section" aria-labelledby="contact-title">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-counter">05 // TRANSMISSION</span>
+                    <h2 id="contact-title" class="sr-only">Contact</h2>
+                </div>
+
+                <div class="contact-banner-box" data-reveal>
+                    <span class="contact-sub-badge">DIRECT COMM CHANNEL</span>
+                    
+                    <!-- Large Animated Typography -->
+                    <h2 class="contact-giant-text glitch-title" data-text="LET’S BUILD SOMETHING.">
+                        LET’S BUILD SOMETHING.
+                    </h2>
+
+                    <p class="contact-tagline">
+                        Have an exciting project, an internship opportunity, or an idea at the intersection of AI, IoT, and software? My inbox is always open.
+                    </p>
+
+                    <!-- Fast Direct Transmission Console Form -->
+                    <div class="contact-terminal-wrapper">
+                        <div class="contact-terminal-head">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="channel-name">DISPATCH TRANSMISSION // ENCRYPTED</span>
+                        </div>
+
+                        <form id="contact-form" class="cyber-contact-form" action="#" method="POST">
+                            <div class="form-row-2">
+                                <div class="cyber-input-group">
+                                    <label for="contact-name"><span class="lbl-marker">&gt;</span> YOUR NAME / CALLSIGN</label>
+                                    <input type="text" id="contact-name" name="name" required placeholder="e.g. Alex Mercer" autocomplete="name">
+                                </div>
+                                <div class="cyber-input-group">
+                                    <label for="contact-email"><span class="lbl-marker">&gt;</span> RETURN FREQUENCY / EMAIL</label>
+                                    <input type="email" id="contact-email" name="email" required placeholder="e.g. alex@cyberdomain.com" autocomplete="email">
+                                </div>
+                            </div>
+
+                            <div class="cyber-input-group">
+                                <label for="contact-message"><span class="lbl-marker">&gt;</span> TRANSMISSION PAYLOAD / MESSAGE</label>
+                                <textarea id="contact-message" name="message" rows="4" required placeholder="Let's build something extraordinary together..."></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" id="contact-submit" class="btn btn-cyber-primary" data-magnetic>
+                                    <span class="btn-glitch-overlay"></span>
+                                    <span class="btn-icon">🚀</span>
+                                    <span class="btn-text">TRANSMIT MESSAGE</span>
+                                    <span class="btn-corner-br"></span>
+                                </button>
+                                <span class="form-note" id="form-feedback-note">⚡ Transmission ready. Click transmit.</span>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Direct Social Frequencies / Links -->
+                    <div class="social-frequencies-grid">
+                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-freq-card" data-magnetic>
+                            <span class="freq-icon">🐙</span>
+                            <span class="freq-name">GITHUB</span>
+                            <span class="freq-sub">@ayisha-dev</span>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-freq-card" data-magnetic>
+                            <span class="freq-icon">💼</span>
+                            <span class="freq-name">LINKEDIN</span>
+                            <span class="freq-sub">/in/ayisha</span>
+                        </a>
+                        <a href="mailto:ayisha.cse@example.com" class="social-freq-card" data-magnetic>
+                            <span class="freq-icon">✉️</span>
+                            <span class="freq-name">EMAIL</span>
+                            <span class="freq-sub">ayisha@engineer.com</span>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-freq-card" data-magnetic>
+                            <span class="freq-icon">🌐</span>
+                            <span class="freq-name">TWITTER / X</span>
+                            <span class="freq-sub">@ayisha_tech</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+    <footer id="footer" class="footer">
+        <div class="container footer-container">
+            <div class="footer-left">
+                <span class="footer-logo">&lt;AYISHA /&gt;</span>
+                <p class="footer-sub">Crafted with pixel precision, semantic HTML5, cyber CSS3 &amp; vanilla JS.</p>
+            </div>
+            
+            <div class="footer-right">
+                <span class="status-indicator">
+                    <span class="live-dot pulse"></span> ALL SYSTEMS NOMINAL
+                </span>
+                <p class="copyright-text">&copy; 2026 AYISHA. ALL RIGHTS RESERVED.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Core Interactive Application Script -->
+    <script src="script.js"></script>
+</body>
+</html>
